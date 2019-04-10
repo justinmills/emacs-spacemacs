@@ -27,7 +27,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/code/vortexjj/emacs-spacemacs/spacemacs-layers")
+   dotspacemacs-configuration-layer-path '("~/code/personal/emacs-spacemacs/spacemacs-layers")
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
@@ -91,6 +91,7 @@ values."
      ag
      json-mode
      thrift
+     ssh-agency
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -364,7 +365,7 @@ you should place your code here."
                             (nospace . "-")
                             (case-fn . downcase))
    deft-recursive t
-   magit-repository-directories '(("~/code/diesel/main" . 1))
+   magit-repository-directories '(("~/code/ellevation/main" . 1))
    ;; Ruby config
    ruby-indent-level 2
    ruby-insert-encoding-magic-comment nil
@@ -410,6 +411,12 @@ you should place your code here."
    org-html-htmlize-output-type 'css
 
    )
+  ;; For some reason, this doesn't auto-load
+  ;; (require 'ssh-agency)
+  ;; Required to get magit + ssh agent working on windows
+  ;; https://github.com/magit/magit/wiki/Pushing-with-Magit-from-Windows
+  ;; (setenv "SSH_ASKPASS" "git-gui--askpass")
+
   (custom-set-variables
    '(fill-column 100)
    )
@@ -425,7 +432,7 @@ you should place your code here."
  '(fill-column 100)
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl powershell undo-tree tablist gntp parent-mode flx docker-tramp json-snatcher json-reformat popup async pkg-info dash org-projectile deft ag org-jira magit-gh-pulls github-search github-clone treepy graphql github-browse-file gist gh marshal logito pcache ht vmd-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server tern typescript-mode flycheck powerline pcre2el spinner org-category-capture alert log4e org-plus-contrib markdown-mode multiple-cursors hydra dash-functional projectile epl request gitignore-mode magit git-commit ghub with-editor iedit anzu highlight company yasnippet sbt-mode scala-mode json-mode magit-popup diminish inf-ruby bind-key packed avy smartparens bind-map evil goto-chg skewer-mode js2-mode simple-httpd pythonic f helm helm-core restclient haml-mode s org-mime yapfify yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tide thrift tagedit sql-indent spaceline smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pbcopy paradox ox-gfm osx-trash osx-dictionary orgit org-present org-pomodoro org-download org-bullets open-junk-file ob-restclient ob-http noflet neotree move-text mmm-mode minitest markdown-toc magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu ensime emmet-mode elisp-slime-nav dumb-jump dockerfile-mode docker dash-at-point cython-mode csv-mode column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (ssh-agency zeal-at-point transient git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl powershell undo-tree tablist gntp parent-mode flx docker-tramp json-snatcher json-reformat popup async pkg-info dash org-projectile deft ag org-jira magit-gh-pulls github-search github-clone treepy graphql github-browse-file gist gh marshal logito pcache ht vmd-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server tern typescript-mode flycheck powerline pcre2el spinner org-category-capture alert log4e org-plus-contrib markdown-mode multiple-cursors hydra dash-functional projectile epl request gitignore-mode magit git-commit ghub with-editor iedit anzu highlight company yasnippet sbt-mode scala-mode json-mode magit-popup diminish inf-ruby bind-key packed avy smartparens bind-map evil goto-chg skewer-mode js2-mode simple-httpd pythonic f helm helm-core restclient haml-mode s org-mime yapfify yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tide thrift tagedit sql-indent spaceline smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pbcopy paradox ox-gfm osx-trash osx-dictionary orgit org-present org-pomodoro org-download org-bullets open-junk-file ob-restclient ob-http noflet neotree move-text mmm-mode minitest markdown-toc magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu ensime emmet-mode elisp-slime-nav dumb-jump dockerfile-mode docker dash-at-point cython-mode csv-mode column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
