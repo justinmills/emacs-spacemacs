@@ -34,7 +34,9 @@ values."
    '(
      typescript
      html
-     python
+     (python :variables
+             python-test-runner 'pytest
+             python-auto-set-local-pyenv-version 'on-project-switch)
      sql
      javascript
      ;; ----------------------------------------------------------------
@@ -81,6 +83,8 @@ values."
      colors
      chrome
      windows-scripts
+     ;; To edit Jenkinsfiles (only available in develop branch)
+     ;; groovy
      ;; My private layer(s)
      vortexjj
      org-jira
@@ -95,6 +99,7 @@ values."
      json-mode
      thrift
      forge ;; github integration
+     groovy-mode ;; groovy layer only available in develop branch
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -430,11 +435,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fill-column 100)
-
  '(package-selected-packages
    (quote
-    (jinja2-mode ansible-doc ansible forge closql emacsql-sqlite emacsql lv dash-docs transient terraform-mode hcl-mode git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter diff-hl powershell undo-tree tablist gntp parent-mode flx docker-tramp json-snatcher json-reformat popup async pkg-info dash org-projectile deft ag org-jira magit-gh-pulls github-search github-clone treepy graphql github-browse-file gist gh marshal logito pcache ht vmd-mode gmail-message-mode ham-mode html-to-markdown flymd edit-server tern typescript-mode flycheck powerline pcre2el spinner org-category-capture alert log4e org-plus-contrib markdown-mode multiple-cursors hydra dash-functional projectile epl request gitignore-mode magit git-commit ghub with-editor iedit anzu highlight company yasnippet sbt-mode scala-mode json-mode magit-popup diminish inf-ruby bind-key packed avy smartparens bind-map evil goto-chg skewer-mode js2-mode simple-httpd pythonic f helm helm-core restclient haml-mode s org-mime yapfify yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tide thrift tagedit sql-indent spaceline smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder restclient-helm restart-emacs rbenv rake rainbow-mode rainbow-identifiers rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pbcopy paradox ox-gfm osx-trash osx-dictionary orgit org-present org-pomodoro org-download org-bullets open-junk-file ob-restclient ob-http noflet neotree move-text mmm-mode minitest markdown-toc magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc info+ indent-guide hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu ensime emmet-mode elisp-slime-nav dumb-jump dockerfile-mode docker dash-at-point cython-mode csv-mode column-enforce-mode color-identifiers-mode coffee-mode clean-aindent-mode chruby bundler auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (yapfify yaml-mode web-mode vmd-mode tide typescript-mode flycheck sql-indent pyvenv osx-dictionary orgit org-mime org-jira org-download ob-restclient lua-mode live-py-mode js2-refactor multiple-cursors hy-mode dash-functional htmlize groovy-mode gnuplot git-timemachine git-link forge ghub closql emacsql-sqlite treepy evil-magit docker tablist diff-hl csv-mode color-identifiers-mode ansible anaconda-mode ag company yasnippet sbt-mode scala-mode magit transient git-commit with-editor markdown-mode alert pythonic restclient js2-mode simple-httpd winum which-key use-package toc-org request rainbow-delimiters paradox org-plus-contrib org-bullets lorem-ipsum link-hint indent-guide hydra lv hl-todo helm-swoop helm-projectile projectile helm-make google-translate golden-ratio fill-column-indicator eyebrowse evil-surround evil-nerd-commenter evil-mc evil-matchit evil-exchange eval-sexp-fu dumb-jump diminish define-word bind-key auto-compile aggressive-indent ace-window ace-link avy smartparens highlight f evil flx helm helm-core async dash ws-butler web-beautify volatile-highlights vi-tilde-fringe uuidgen thrift terraform-mode tagedit spinner spaceline smeargle slim-mode scss-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs rainbow-mode rainbow-identifiers pytest pyenv-mode py-isort pug-mode powershell popwin pkg-info pip-requirements persp-mode pcre2el pbcopy packed ox-gfm osx-trash org-projectile org-present org-pomodoro open-junk-file ob-http noflet neotree move-text mmm-mode markdown-toc magit-gitflow macrostep log4e livid-mode linum-relative launchctl json-mode js-doc jinja2-mode hungry-delete highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-pydoc helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-dash helm-css-scss helm-ag goto-chg gntp gmail-message-mode gitconfig-mode gitattributes-mode git-messenger git-gutter-fringe git-gutter-fringe+ gh-md flymd flx-ido fancy-battery expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-lisp-state evil-indent-plus evil-iedit-state evil-escape evil-ediff evil-args evil-anzu ensime emmet-mode emacsql elisp-slime-nav edit-server dockerfile-mode docker-tramp deft dash-at-point cython-mode column-enforce-mode coffee-mode clean-aindent-mode auto-highlight-symbol ansible-doc adaptive-wrap ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
