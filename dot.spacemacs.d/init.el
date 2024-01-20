@@ -85,7 +85,7 @@ This function should only modify configuration layer settings."
              python-backend 'lsp
              python-tab-width 4
              python-fill-column 99
-             python-formatter 'yapf
+             python-formatter 'black
              python-format-on-save t
              python-sort-imports-on-save t
              python-pipenv-activate t
@@ -98,11 +98,15 @@ This function should only modify configuration layer settings."
      ;; having some issues with this, so let's abandon for now.
      ;; scala
      spacemacs-layouts
-     sql
+     (sql :variables
+          sql-capitalize-keywords t
+          sqlfmt-options '("--use-spaces" "--tab-width" "2")
+          )
      terraform
      typescript
      windows-scripts
      yaml
+     rust
 
      ;; My private layer(s)
      vortexjj
