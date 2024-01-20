@@ -92,15 +92,16 @@ This function should only modify configuration layer settings."
              python-test-runner 'pytest
              )
      restclient
-     ;; (ruby :variables
-     ;;       ruby-version-manager 'rvm
-     ;;       ruby-test-runner 'rspec)
+     (ruby :variables
+           ruby-version-manager 'rvm
+           ruby-test-runner 'rspec)
+     rust
      ;; having some issues with this, so let's abandon for now.
      ;; scala
      spacemacs-layouts
      (sql :variables
           sql-capitalize-keywords t
-          sqlfmt-options '("--use-spaces" "--tab-width" "2")
+          sqlfmt-options '("--use-spaces" "--tab-width" "2" "--print-width" "100")
           )
      terraform
      typescript
@@ -597,7 +598,7 @@ before packages are loaded."
    deft-recursive t
    dired-use-ls-dired nil ;; disable warning about dired not supporting --dired arg
    magit-repository-directories '(
-                                  ("~/code/ellevation/main" . 1)
+                                  ("~/code/job/main" . 1)
                                   ("~/code/personal" . 1)
                                   )
    magit-repolist-columns '(("Name" 25 magit-repolist-column-ident nil)
@@ -635,7 +636,7 @@ before packages are loaded."
    ;; Acknowledge that we are on a snapshot of ensime.
    ;; ensime-startup-snapshot-notification nil
    ;; Custom location for sbt
-   sbt:program-name "~/code/diesel/main/source/bin/sbt"
+   ;; sbt:program-name "~/code/diesel/main/source/bin/sbt"
    org-directory "~/deft"
    org-agenda-files (list "~/deft/agenda.org" "~/deft/org-jira")
    org-capture-templates `(("t" "Todo" entry (file ,(concat org-directory "/agenda.org"))
@@ -646,10 +647,26 @@ before packages are loaded."
    ;;                               ("~/computer.html")) ;; (6)
    ;;                              ;; ...other commands here
    ;;                              ))
+   org-structure-template-alist '(
+                                  ;; Commenting out the ones that don't seem to work
+                                  ;; ("a" . "export ascii")
+                                  ;; ("c" . "center")
+                                  ;; ("C" . "comment")
+                                  ("e" . "example")
+                                  ;; ("E" . "export")
+                                  ;; ("h" . "export html")
+                                  ("i" . "info")
+                                  ;; ("l" . "export latex")
+                                  ("q" . "quote")
+                                  ("s" . "src")
+                                  ("t" . "tip")
+                                  ("v" . "verse")
+                                  ("w" . "warning")
+                                  )
    ;; org-jira
-   jiralib-url "https://diesellabs.atlassian.net:443"
+   ;; jiralib-url "https://diesellabs.atlassian.net:443"
    ;; "https://api.atlassian.com/ex/jira/diesellabs/{api}"
-   org-jira-working-dir "~/deft/org-jira"
+   ;; org-jira-working-dir "~/deft/org-jira"
    ;; enabling logging work into a drawer
    org-log-into-drawer "LOGBOOK"
    ;; Use this much better style sheet
@@ -661,7 +678,31 @@ before packages are loaded."
   (custom-set-variables
    '(fill-column 100)
    ;; This is for terraform mode to work properly
-   '(exec-path (append exec-path '("/Users/justin.mills/.terraform/0.11.13")))
+   ;; '(exec-path (append exec-path '("/Users/justin.mills/.terraform/0.11.13")))
    )
   )
 
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(exec-path
+   (append exec-path
+           '("/Users/justin.mills/.terraform/0.11.13")))
+ '(fill-column 100)
+ '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
+ '(package-selected-packages
+   '(sqlup-mode cargo flycheck-rust ron-mode rust-mode toml-mode add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy enh-ruby-mode ggtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode wolfram-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vim-powerline vi-tilde-fringe vala-snippets vala-mode uuidgen use-package undo-tree typescript-mode treeview treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org thrift term-cursor tagedit symon symbol-overlay string-inflection string-edit-at-point stan-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slim-mode scss-mode scad-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs request rainbow-mode rainbow-identifiers rainbow-delimiters quickrun qml-mode pytest pylookup pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pkgbuild-mode pippel pipenv pip-requirements pcre2el password-generator paradox ox-gfm overseer osx-trash osx-dictionary osx-clipboard orgit-forge org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-restclient ob-http npm-mode nose nodejs-repl nameless multi-line mmm-mode matlab-mode markdown-toc macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lorem-ipsum logcat livid-mode live-py-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc jinja2-mode inspector info+ indent-guide importmagic impatient-mode hybrid-mode hungry-delete hoon-mode holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gmail-message-mode gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe gh-md gemini-mode fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav elisp-def editorconfig edit-server ebuild-mode dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker dired-quick-sort diminish devdocs deft dap-mode cython-mode csv-mode company-web company-terraform company-restclient company-lua company-ansible company-anaconda column-enforce-mode color-identifiers-mode code-cells clean-aindent-mode centered-cursor-mode browse-at-remote bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile arduino-mode ansible-doc ansible all-the-icons aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)
