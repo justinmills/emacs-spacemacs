@@ -42,7 +42,8 @@ This function should only modify configuration layer settings."
      ;; better-defaults
      emacs-lisp
      git
-     helm
+     (helm :variables
+           helm-buffer-max-length 80)
      lsp
      (markdown :variables
                markdown-live-preview-engine 'vmd)
