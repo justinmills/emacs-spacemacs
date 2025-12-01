@@ -56,7 +56,8 @@ This function should only modify configuration layer settings."
           org-enable-verb-support t
           org-enable-jira-support t
           jiralib-url "https://waymark-care.atlassian.net:443"
-          org-enable-github-support t
+          ;; Org-journal (spacemacs/user-config has more config set)
+          org-enable-org-journal-support t
           )
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -136,6 +137,7 @@ This function should only modify configuration layer settings."
      ;; thrift
      ;; forge ;; github integration
      ox-slack
+     envrc
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -702,7 +704,7 @@ before packages are loaded."
    ;; Custom location for sbt
    ;; sbt:program-name "~/code/diesel/main/source/bin/sbt"
    org-directory "~/deft"
-   org-agenda-files (list "~/deft/agenda.org" "~/deft/org-jira")
+   org-agenda-files (list "~/deft/agenda.org" "~/deft/journal.org" "~/deft/journal/" "~/deft/report-out.org")
    org-capture-templates `(("t" "Todo" entry (file ,(concat org-directory "/agenda.org"))
                             "* TODO %?\nLink:%i %a\nCaptured:%U" :empty-lines 1))
    ;; org-agenda-custom-commands '(("o" "My View!" tags-todo "computer" ;; (1) (2) (3) (4)
@@ -739,12 +741,18 @@ before packages are loaded."
    org-html-htmlize-output-type 'css
 
    )
+  ;; Customize org-journal
+  (setq org-journal-dir "~/deft/journal")
+  (setq org-journal-file-type 'yearly)
+
   (custom-set-variables
    '(fill-column 100)
    ;; This is for terraform mode to work properly
    ;; '(exec-path (append exec-path '("/Users/justin.mills/.terraform/0.11.13")))
    )
-  )
+  (use-package envrc
+    :hook (after-init . envrc-global-mode))
+)
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -763,7 +771,7 @@ This function is called at the very end of Spacemacs initialization."
  '(fill-column 100)
  '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
  '(package-selected-packages
-   '(org-jira ox-jira verb org xref compat sqlite3 sqlup-mode cargo flycheck-rust ron-mode rust-mode toml-mode add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy enh-ruby-mode ggtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode wolfram-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vim-powerline vi-tilde-fringe vala-snippets vala-mode uuidgen use-package undo-tree typescript-mode treeview treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org thrift term-cursor tagedit symon symbol-overlay string-inflection string-edit-at-point stan-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slim-mode scss-mode scad-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs request rainbow-mode rainbow-identifiers rainbow-delimiters quickrun qml-mode pytest pylookup pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pkgbuild-mode pippel pipenv pip-requirements pcre2el password-generator paradox ox-gfm overseer osx-trash osx-dictionary osx-clipboard orgit-forge org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-restclient ob-http npm-mode nose nodejs-repl nameless multi-line mmm-mode matlab-mode markdown-toc macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lorem-ipsum logcat livid-mode live-py-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc jinja2-mode inspector info+ indent-guide importmagic impatient-mode hybrid-mode hungry-delete hoon-mode holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gmail-message-mode gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe gh-md gemini-mode fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav elisp-def editorconfig edit-server ebuild-mode dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker dired-quick-sort diminish devdocs deft dap-mode cython-mode csv-mode company-web company-terraform company-restclient company-lua company-ansible company-anaconda column-enforce-mode color-identifiers-mode code-cells clean-aindent-mode centered-cursor-mode browse-at-remote bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile arduino-mode ansible-doc ansible all-the-icons aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+   '(org-journal envrc inheritenv org-jira ox-jira verb org xref compat sqlite3 sqlup-mode cargo flycheck-rust ron-mode rust-mode toml-mode add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy enh-ruby-mode ggtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode wolfram-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vim-powerline vi-tilde-fringe vala-snippets vala-mode uuidgen use-package undo-tree typescript-mode treeview treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org thrift term-cursor tagedit symon symbol-overlay string-inflection string-edit-at-point stan-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slim-mode scss-mode scad-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs request rainbow-mode rainbow-identifiers rainbow-delimiters quickrun qml-mode pytest pylookup pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pkgbuild-mode pippel pipenv pip-requirements pcre2el password-generator paradox ox-gfm overseer osx-trash osx-dictionary osx-clipboard orgit-forge org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-restclient ob-http npm-mode nose nodejs-repl nameless multi-line mmm-mode matlab-mode markdown-toc macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lorem-ipsum logcat livid-mode live-py-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc jinja2-mode inspector info+ indent-guide importmagic impatient-mode hybrid-mode hungry-delete hoon-mode holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gmail-message-mode gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe gh-md gemini-mode fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav elisp-def editorconfig edit-server ebuild-mode dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker dired-quick-sort diminish devdocs deft dap-mode cython-mode csv-mode company-web company-terraform company-restclient company-lua company-ansible company-anaconda column-enforce-mode color-identifiers-mode code-cells clean-aindent-mode centered-cursor-mode browse-at-remote bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile arduino-mode ansible-doc ansible all-the-icons aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
