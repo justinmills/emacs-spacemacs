@@ -63,7 +63,7 @@ This function should only modify configuration layer settings."
      ;;        shell-default-position 'bottom)
      spell-checking
      ;; syntax-checking
-     treemacs
+     (treemacs :variables treemacs-use-follow-mode t)
      version-control
 
      ;; Some of the above are mine, but if they are, then they're also in the template. These below
