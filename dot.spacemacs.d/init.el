@@ -27,7 +27,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-ask-for-lazy-installation t
 
    ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   ;; Paths must have a trailing slash (i.e. "~/.mycontribs/")
    dotspacemacs-configuration-layer-path '("~/code/personal/emacs-spacemacs/spacemacs-layers")
 
    ;; List of configuration layers to load.
@@ -115,6 +115,8 @@ This function should only modify configuration layer settings."
      windows-scripts
      yaml
      rust
+     (github-copilot :variables
+                     github-copilot-enable-commit-messages t)
 
      ;; My private layer(s)
      vortexjj
@@ -162,37 +164,6 @@ It should only modify the values of Spacemacs settings."
   ;; This setq-default sexp is an exhaustive list of all the supported
   ;; spacemacs settings.
   (setq-default
-   ;; If non-nil then enable support for the portable dumper. You'll need to
-   ;; compile Emacs 27 from source following the instructions in file
-   ;; EXPERIMENTAL.org at to root of the git repository.
-   ;;
-   ;; WARNING: pdumper does not work with Native Compilation, so it's disabled
-   ;; regardless of the following setting when native compilation is in effect.
-   ;;
-   ;; (default nil)
-   dotspacemacs-enable-emacs-pdumper nil
-
-   ;; Name of executable file pointing to emacs 27+. This executable must be
-   ;; in your PATH.
-   ;; (default "emacs")
-   dotspacemacs-emacs-pdumper-executable-file "emacs"
-
-   ;; Name of the Spacemacs dump file. This is the file will be created by the
-   ;; portable dumper in the cache directory under dumps sub-directory.
-   ;; To load it when starting Emacs add the parameter `--dump-file'
-   ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
-   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
-   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
-
-   ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
-   ;; possible. Set it to nil if you have no way to use HTTPS in your
-   ;; environment, otherwise it is strongly recommended to let it set to t.
-   ;; This variable has no effect if Emacs is launched with the parameter
-   ;; `--insecure' which forces the value of this variable to nil.
-   ;; (default t)
-   dotspacemacs-elpa-https t
-
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
    dotspacemacs-elpa-timeout 5
@@ -283,7 +254,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-startup-buffer-multi-digit-delay 0.4
 
    ;; If non-nil, show file icons for entries and headings on Spacemacs home buffer.
-   ;; This has no effect in terminal or if "all-the-icons" package or the font
+   ;; This has no effect in terminal or if "nerd-icons" package or the font
    ;; is not installed. (default nil)
    dotspacemacs-startup-buffer-show-icons nil
 
@@ -309,7 +280,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
-   ;; with 2 themes variants, one dark and one light)
+   ;; with 2 themes variants, one dark and one light). A theme from external
+   ;; package can be defined with `:package', or a theme can be defined with
+   ;; `:location' to download the theme package, refer the themes section in
+   ;; DOCUMENTATION.org for the full theme specifications.
    dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
 
@@ -336,6 +310,9 @@ It should only modify the values of Spacemacs settings."
                                :weight normal
                                :width normal)
 
+   ;; Default icons font, it can be `all-the-icons' or `nerd-icons'.
+   dotspacemacs-default-icons-font 'all-the-icons
+
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
@@ -355,10 +332,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; (default "C-M-m" for terminal mode, "M-<return>" for GUI mode).
    ;; Thus M-RET should work as leader key in both GUI and terminal modes.
    ;; C-M-m also should work in terminal mode, but not in GUI mode.
-   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "M-<return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -422,6 +399,30 @@ It should only modify the values of Spacemacs settings."
    ;; displays the buffer in a same-purpose window even if the buffer can be
    ;; displayed in the current window. (default nil)
    dotspacemacs-switch-to-buffer-prefers-purpose nil
+
+   ;; Make consecutive tab key presses after commands such as
+   ;; `spacemacs/alternate-buffer' (SPC TAB) cycle through previous
+   ;; buffers/windows/etc. Please see the option's docstring for more information.
+   ;; Set the option to t in order to enable cycling for all current and
+   ;; future cycling commands. Alternatively, choose a subset of the currently
+   ;; supported commands: '(alternate-buffer alternate-window). (default nil)
+   dotspacemacs-enable-cycling nil
+
+   ;; Whether side windows (such as those created by treemacs or neotree)
+   ;; are kept or minimized by `spacemacs/toggle-maximize-window' (SPC w m).
+   ;; (default t)
+   dotspacemacs-maximize-window-keep-side-windows t
+
+   ;; If nil, no load-hints enabled. If t, enable the `load-hints' which will
+   ;; put the most likely path on the top of `load-path' to reduce walking
+   ;; through the whole `load-path'. It's an experimental feature to speedup
+   ;; Spacemacs on Windows. Refer the FAQ.org "load-hints" session for details.
+   dotspacemacs-enable-load-hints nil
+
+   ;; If t, enable the `package-quickstart' feature to avoid full package
+   ;; loading, otherwise no `package-quickstart' attemption (default nil).
+   ;; Refer the FAQ.org "package-quickstart" section for details.
+   dotspacemacs-enable-package-quickstart nil
 
    ;; If non-nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
@@ -540,9 +541,15 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-persistent-server nil
 
    ;; List of search tool executable names. Spacemacs uses the first installed
-   ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
-   ;; (default '("rg" "ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
+   ;; tool of the list. Supported tools are `rg', `ag', `ack' and `grep'.
+   ;; (default '("rg" "ag" "ack" "grep"))
+   dotspacemacs-search-tools '("rg" "ag" "ack" "grep")
+
+   ;; The backend used for undo/redo functionality. Possible values are
+   ;; `undo-redo', `undo-fu' and `undo-tree' see also `evil-undo-system'.
+   ;; Note that saved undo history does not get transferred when changing
+   ;; your undo system from or to undo-tree. (default `undo-redo')
+   dotspacemacs-undo-system 'undo-redo
 
    ;; Format specification for setting the frame title.
    ;; %a - the `abbreviated-file-name', or `buffer-name'
@@ -579,6 +586,9 @@ It should only modify the values of Spacemacs settings."
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
+   ;; The variable `global-spacemacs-whitespace-cleanup-modes' controls
+   ;; which major modes have whitespace cleanup enabled or disabled
+   ;; by default.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
@@ -622,7 +632,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
-)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -630,16 +640,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-)
-
-
-(defun dotspacemacs/user-load ()
-  "Library to load while dumping.
-This function is called only while dumping Spacemacs configuration. You can
-`require' or `load' the libraries of your choice that will be included in the
-dump."
-)
-
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -752,30 +753,86 @@ before packages are loaded."
    )
   (use-package envrc
     :hook (after-init . envrc-global-mode))
-)
+  )
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(csv-separators '("|" "\11"))
- '(exec-path
-   (append exec-path
-           '("/Users/justin.mills/.terraform/0.11.13")))
- '(fill-column 100)
- '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
- '(package-selected-packages
-   '(org-journal envrc inheritenv org-jira ox-jira verb org xref compat sqlite3 sqlup-mode cargo flycheck-rust ron-mode rust-mode toml-mode add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy enh-ruby-mode ggtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing yasnippet-snippets yapfify yaml-mode ws-butler writeroom-mode wolfram-mode winum which-key web-mode web-beautify volatile-highlights vmd-mode vim-powerline vi-tilde-fringe vala-snippets vala-mode uuidgen use-package undo-tree typescript-mode treeview treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired toc-org thrift term-cursor tagedit symon symbol-overlay string-inflection string-edit-at-point stan-mode sql-indent sphinx-doc spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slim-mode scss-mode scad-mode sass-mode reveal-in-osx-finder restclient-helm restart-emacs request rainbow-mode rainbow-identifiers rainbow-delimiters quickrun qml-mode pytest pylookup pyenv-mode pydoc py-isort pug-mode prettier-js powershell popwin poetry pkgbuild-mode pippel pipenv pip-requirements pcre2el password-generator paradox ox-gfm overseer osx-trash osx-dictionary osx-clipboard orgit-forge org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-contrib org-cliplink open-junk-file ob-restclient ob-http npm-mode nose nodejs-repl nameless multi-line mmm-mode matlab-mode markdown-toc macrostep lsp-ui lsp-python-ms lsp-pyright lsp-origami lorem-ipsum logcat livid-mode live-py-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc jinja2-mode inspector info+ indent-guide importmagic impatient-mode hybrid-mode hungry-delete hoon-mode holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gmail-message-mode gitignore-templates git-timemachine git-modes git-messenger git-link git-gutter-fringe gh-md gemini-mode fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav elisp-def editorconfig edit-server ebuild-mode dumb-jump drag-stuff dotenv-mode dockerfile-mode docker-tramp docker dired-quick-sort diminish devdocs deft dap-mode cython-mode csv-mode company-web company-terraform company-restclient company-lua company-ansible company-anaconda column-enforce-mode color-identifiers-mode code-cells clean-aindent-mode centered-cursor-mode browse-at-remote bmx-mode blacken auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile arduino-mode ansible-doc ansible all-the-icons aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(csv-separators '("|" "\11"))
+   '(exec-path
+     (append exec-path '("/Users/justin.mills/.terraform/0.11.13")))
+   '(fill-column 100)
+   '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
+   '(package-selected-packages
+     '(ac-ispell ace-jump-helm-line ace-link add-node-modules-path aggressive-indent
+                 all-the-icons ansible ansible-doc arduino-mode auto-compile
+                 auto-dictionary auto-highlight-symbol auto-yasnippet blacken
+                 bmx-mode browse-at-remote bundler cargo centered-cursor-mode
+                 chruby clean-aindent-mode code-cells color-identifiers-mode
+                 column-enforce-mode company-anaconda company-ansible company-lua
+                 company-restclient company-terraform company-web compat copilot
+                 copilot-chat counsel counsel-gtags csv-mode cython-mode dap-mode
+                 deft devdocs diminish dired-quick-sort docker docker-tramp
+                 dockerfile-mode dotenv-mode drag-stuff dumb-jump ebuild-mode
+                 edit-server editorconfig elisp-def elisp-slime-nav emmet-mode emr
+                 enh-ruby-mode envrc eval-sexp-fu evil-anzu evil-args
+                 evil-cleverparens evil-collection evil-escape
+                 evil-evilified-state evil-exchange evil-goggles evil-iedit-state
+                 evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
+                 evil-nerd-commenter evil-numbers evil-org evil-surround
+                 evil-textobj-line evil-tutor evil-unimpaired
+                 evil-visual-mark-mode evil-visualstar expand-region eyebrowse
+                 fancy-battery flx-ido flycheck-elsa flycheck-package
+                 flycheck-pos-tip flycheck-rust flymd flyspell-correct-helm fuzzy
+                 gemini-mode ggtags gh-md git-gutter-fringe git-link git-messenger
+                 git-modes git-timemachine gitignore-templates gmail-message-mode
+                 gnuplot golden-ratio google-translate groovy-imports groovy-mode
+                 helm-ag helm-c-yasnippet helm-company helm-css-scss
+                 helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
+                 helm-mode-manager helm-org helm-org-rifle helm-projectile
+                 helm-purpose helm-pydoc helm-swoop helm-themes helm-xref
+                 help-fns+ hide-comnt highlight-indentation highlight-numbers
+                 highlight-parentheses hl-todo holy-mode hoon-mode hungry-delete
+                 hybrid-mode impatient-mode importmagic indent-guide inf-ruby
+                 info+ inheritenv inspector ivy jinja2-mode js-doc js2-refactor
+                 json-mode json-navigator json-reformat launchctl link-hint
+                 live-py-mode livid-mode logcat lorem-ipsum lsp-origami
+                 lsp-pyright lsp-python-ms lsp-ui macrostep markdown-toc
+                 matlab-mode mcp minitest mmm-mode multi-line nameless nodejs-repl
+                 nose npm-mode ob-http ob-restclient open-junk-file org
+                 org-cliplink org-contrib org-download org-jira org-journal
+                 org-mime org-pomodoro org-present org-projectile org-rich-yank
+                 org-superstar orgit-forge osx-clipboard osx-dictionary osx-trash
+                 overseer ox-gfm ox-jira paradox password-generator pcre2el
+                 pip-requirements pipenv pippel pkgbuild-mode poetry polymode
+                 popwin powershell prettier-js pug-mode py-isort pydoc pyenv-mode
+                 pylookup pytest qml-mode quickrun rainbow-delimiters
+                 rainbow-identifiers rainbow-mode rake rbenv request restart-emacs
+                 restclient-helm reveal-in-osx-finder robe ron-mode rspec-mode
+                 rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode
+                 ruby-tools rust-mode rvm sass-mode scad-mode scss-mode
+                 seeing-is-believing shell-maker slim-mode smeargle space-doc
+                 spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
+                 sphinx-doc sql-indent sqlite3 sqlup-mode stan-mode
+                 string-edit-at-point string-inflection swiper symbol-overlay
+                 symon tagedit term-cursor thrift toc-org toml-mode track-changes
+                 treemacs-icons-dired treemacs-magit treemacs-persp
+                 treemacs-projectile treeview typescript-mode undo-tree
+                 use-package uuidgen vala-mode vala-snippets verb vi-tilde-fringe
+                 vim-powerline vmd-mode volatile-highlights web-beautify web-mode
+                 which-key winum wolfram-mode writeroom-mode ws-butler xref
+                 yaml-mode yapfify yasnippet-snippets)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
