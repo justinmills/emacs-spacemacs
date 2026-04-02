@@ -1,3 +1,4 @@
 /.DS_Store
 # Generated env file
 /dot.spacemacs.d/.spacemacs.env
+/.agent-shell/

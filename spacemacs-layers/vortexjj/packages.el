@@ -1,14 +1,7 @@
 ;;; packages.el --- vortexjj layer packages file for Spacemacs.
 ;;
-;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;; Author: Justin Mills
 ;;
-;; Author: Justin Mills <justinmills@Justins-Yesware-Laptop.local>
-;; URL: https://github.com/syl20bnr/spacemacs
-;;
-;; This file is not part of GNU Emacs.
-;;
-;;; License: GPLv3
-
 ;;; Commentary:
 
 ;; See the Spacemacs documentation and FAQs for instructions on how to implement
