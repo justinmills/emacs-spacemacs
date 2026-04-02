@@ -59,9 +59,15 @@ This function should only modify configuration layer settings."
           ;; Org-journal (spacemacs/user-config has more config set)
           org-enable-org-journal-support t
           )
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            ;; shell-default-shell 'multi-vterm
+            shell-default-shell 'vterm
+            shell-default-term-shell "/opt/homebrew/bin/bash"
+            multi-term-program "/opt/homebrew/bin/bash"
+            ;; Prevent the shell from taking up the entire screen when it opens.
+            shell-default-full-span nil
+            shell-default-height 30
+            shell-default-position 'bottom)
      spell-checking
      ;; syntax-checking
      (treemacs :variables treemacs-use-follow-mode t)
@@ -95,7 +101,7 @@ This function should only modify configuration layer settings."
              python-formatter 'black
              python-format-on-save t
              python-sort-imports-on-save t
-             python-pipenv-activate t
+             python-poetry-activate t
              python-test-runner 'pytest
              )
      restclient
@@ -140,6 +146,8 @@ This function should only modify configuration layer settings."
      ;; forge ;; github integration
      ox-slack
      envrc
+     ;; agent-shell - see below where we load it
+     agent-shell
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -753,7 +761,21 @@ before packages are loaded."
    )
   (use-package envrc
     :hook (after-init . envrc-global-mode))
+  ;; Agent-shell for interacting with ai agents
+  (use-package agent-shell
+    :ensure t
+    :ensure-system-package
+    ;; Add agent installation configs here
+    (
+     (claude . "brew install claude-code")
+     ;; this project has been moved here in case it stops working in the future
+     ;; @agentclientprotocol/claude-agent-acp
+     ;; (claude-agent-acp . "npm install -g @zed-industries/claude-agent-acp")
+     (claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")
+     )
+    )
   )
+
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -771,19 +793,20 @@ This function is called at the very end of Spacemacs initialization."
    '(fill-column 100)
    '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
    '(package-selected-packages
-     '(ac-ispell ace-jump-helm-line ace-link add-node-modules-path aggressive-indent
-                 all-the-icons ansible ansible-doc arduino-mode auto-compile
-                 auto-dictionary auto-highlight-symbol auto-yasnippet blacken
-                 bmx-mode browse-at-remote bundler cargo centered-cursor-mode
-                 chruby clean-aindent-mode code-cells color-identifiers-mode
-                 column-enforce-mode company-anaconda company-ansible company-lua
-                 company-restclient company-terraform company-web compat copilot
-                 copilot-chat counsel counsel-gtags csv-mode cython-mode dap-mode
-                 deft devdocs diminish dired-quick-sort docker docker-tramp
-                 dockerfile-mode dotenv-mode drag-stuff dumb-jump ebuild-mode
-                 edit-server editorconfig elisp-def elisp-slime-nav emmet-mode emr
-                 enh-ruby-mode envrc eval-sexp-fu evil-anzu evil-args
-                 evil-cleverparens evil-collection evil-escape
+     '(ac-ispell ace-jump-helm-line ace-link acp add-node-modules-path agent-shell
+                 aggressive-indent all-the-icons ansible ansible-doc arduino-mode
+                 auto-compile auto-dictionary auto-highlight-symbol auto-yasnippet
+                 blacken bmx-mode browse-at-remote bundler cargo
+                 centered-cursor-mode chruby clean-aindent-mode code-cells
+                 color-identifiers-mode column-enforce-mode company-anaconda
+                 company-ansible company-lua company-restclient company-terraform
+                 company-web compat copilot copilot-chat counsel counsel-gtags
+                 csv-mode cython-mode dap-mode deft devdocs diminish
+                 dired-quick-sort docker docker-tramp dockerfile-mode dotenv-mode
+                 drag-stuff dumb-jump eat ebuild-mode edit-server editorconfig
+                 elisp-def elisp-slime-nav emmet-mode emr enh-ruby-mode envrc
+                 esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu
+                 evil-args evil-cleverparens evil-collection evil-escape
                  evil-evilified-state evil-exchange evil-goggles evil-iedit-state
                  evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
                  evil-nerd-commenter evil-numbers evil-org evil-surround
@@ -805,12 +828,13 @@ This function is called at the very end of Spacemacs initialization."
                  json-mode json-navigator json-reformat launchctl link-hint
                  live-py-mode livid-mode logcat lorem-ipsum lsp-origami
                  lsp-pyright lsp-python-ms lsp-ui macrostep markdown-toc
-                 matlab-mode mcp minitest mmm-mode multi-line nameless nodejs-repl
-                 nose npm-mode ob-http ob-restclient open-junk-file org
-                 org-cliplink org-contrib org-download org-jira org-journal
-                 org-mime org-pomodoro org-present org-projectile org-rich-yank
-                 org-superstar orgit-forge osx-clipboard osx-dictionary osx-trash
-                 overseer ox-gfm ox-jira paradox password-generator pcre2el
+                 matlab-mode mcp minitest mmm-mode multi-line multi-term
+                 multi-vterm nameless nodejs-repl nose npm-mode ob-http
+                 ob-restclient open-junk-file org org-cliplink org-contrib
+                 org-download org-jira org-journal org-mime org-pomodoro
+                 org-present org-projectile org-rich-yank org-superstar
+                 orgit-forge osx-clipboard osx-dictionary osx-trash overseer
+                 ox-gfm ox-jira paradox password-generator pcre2el
                  pip-requirements pipenv pippel pkgbuild-mode poetry polymode
                  popwin powershell prettier-js pug-mode py-isort pydoc pyenv-mode
                  pylookup pytest qml-mode quickrun rainbow-delimiters
@@ -818,17 +842,18 @@ This function is called at the very end of Spacemacs initialization."
                  restclient-helm reveal-in-osx-finder robe ron-mode rspec-mode
                  rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode
                  ruby-tools rust-mode rvm sass-mode scad-mode scss-mode
-                 seeing-is-believing shell-maker slim-mode smeargle space-doc
-                 spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
-                 sphinx-doc sql-indent sqlite3 sqlup-mode stan-mode
-                 string-edit-at-point string-inflection swiper symbol-overlay
-                 symon tagedit term-cursor thrift toc-org toml-mode track-changes
-                 treemacs-icons-dired treemacs-magit treemacs-persp
-                 treemacs-projectile treeview typescript-mode undo-tree
-                 use-package uuidgen vala-mode vala-snippets verb vi-tilde-fringe
-                 vim-powerline vmd-mode volatile-highlights web-beautify web-mode
-                 which-key winum wolfram-mode writeroom-mode ws-butler xref
-                 yaml-mode yapfify yasnippet-snippets)))
+                 seeing-is-believing shell-maker shell-pop slim-mode smeargle
+                 space-doc spaceline spacemacs-purpose-popwin
+                 spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlite3
+                 sqlup-mode stan-mode string-edit-at-point string-inflection
+                 swiper symbol-overlay symon tagedit term-cursor terminal-here
+                 thrift toc-org toml-mode track-changes treemacs-icons-dired
+                 treemacs-magit treemacs-persp treemacs-projectile treeview
+                 typescript-mode undo-tree use-package uuidgen vala-mode
+                 vala-snippets verb vi-tilde-fringe vim-powerline vmd-mode
+                 volatile-highlights vterm web-beautify web-mode which-key winum
+                 wolfram-mode writeroom-mode ws-butler xref yaml-mode yapfify
+                 yasnippet-snippets)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
