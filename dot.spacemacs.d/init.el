@@ -70,7 +70,13 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom)
      spell-checking
      ;; syntax-checking
-     (treemacs :variables treemacs-use-follow-mode t)
+     (treemacs
+      :variables
+      treemacs-use-follow-mode t
+      treemacs-use-filewatch-mode t
+      treemacs-use-git-mode 'deferred
+      treemacs-use-scope-type 'Perspectives
+      )
      version-control
 
      ;; Some of the above are mine, but if they are, then they're also in the template. These below
@@ -111,7 +117,10 @@ This function should only modify configuration layer settings."
      rust
      ;; having some issues with this, so let's abandon for now.
      ;; scala
-     spacemacs-layouts
+     (spacemacs-layouts
+      :variables
+      persp-autokill-buffer-on-remove 'kill-weak
+      )
      (sql :variables
           sql-capitalize-keywords t
           sqlfmt-options '("--use-spaces" "--tab-width" "2" "--print-width" "100")
