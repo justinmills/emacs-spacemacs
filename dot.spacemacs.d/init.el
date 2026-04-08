@@ -131,7 +131,9 @@ This function should only modify configuration layer settings."
      yaml
      rust
      (github-copilot :variables
-                     github-copilot-enable-commit-messages t)
+                     copilot-model "claude-4.6-sonnet"
+                     copilot-chat-default-model "claude-4.6-sonnet"
+                     github-copilot-enable-commit-messages nil)
 
      ;; My private layer(s)
      vortexjj
@@ -782,6 +784,13 @@ before packages are loaded."
      ;; (claude-agent-acp . "npm install -g @zed-industries/claude-agent-acp")
      (claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")
      )
+    )
+
+  ;;Enable some python lsp server configs
+  (with-eval-after-load 'lsp-pylsp
+    (setq lsp-pylsp-plugins-rope-autoimport-enabled t)
+    (setq lsp-pylsp-plugins-rope-autoimport-completions-enabled t)
+    (setq lsp-pylsp-plugins-rope-autoimport-code-actions-enabled t)
     )
   )
 
