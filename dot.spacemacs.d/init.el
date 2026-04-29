@@ -785,6 +785,9 @@ before packages are loaded."
      (claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")
      )
     )
+  ;; Now customize
+  (setq agent-shell-anthropic-default-model-id "anthropic/claude-sonnet-4.6")
+  (setq agent-shell-opencode-default-model-id "github-copilot/claude-sonnet-4.6")
 
   ;;Enable some python lsp server configs
   (with-eval-after-load 'lsp-pylsp
