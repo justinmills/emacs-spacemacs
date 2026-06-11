@@ -64,10 +64,12 @@ This function should only modify configuration layer settings."
             shell-default-shell 'vterm
             shell-default-term-shell "/opt/homebrew/bin/bash"
             multi-term-program "/opt/homebrew/bin/bash"
-            ;; Prevent the shell from taking up the entire screen when it opens.
+            ;; Prevent the shell from taking up the entire screen when it opens. For now assuming a
+            ;; 2 column layout so need to override the default height of 30.
             shell-default-full-span nil
-            shell-default-height 30
-            shell-default-position 'bottom)
+            shell-default-height 100
+            shell-default-position 'bottom
+            )
      spell-checking
      ;; syntax-checking
      (treemacs
