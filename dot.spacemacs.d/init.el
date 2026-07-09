@@ -789,7 +789,9 @@ before packages are loaded."
     )
   ;; Now customize
   (setq agent-shell-anthropic-default-model-id "anthropic/claude-sonnet-4.6")
-  (setq agent-shell-opencode-default-model-id "github-copilot/claude-sonnet-4.6")
+  ;;(setq agent-shell-opencode-default-model-id "github-copilot/claude-sonnet-4.6")
+  (setq agent-shell-opencode-default-model-id "amazon-bedrock/us.anthropic.claude-sonnet-4-6")
+  ;; (setq agent-shell-opencode-default-model-id "amazon-bedrock/amazon.nova-pro-v1:0")
 
   ;;Enable some python lsp server configs
   (with-eval-after-load 'lsp-pylsp
@@ -816,66 +818,51 @@ This function is called at the very end of Spacemacs initialization."
    '(fill-column 100)
    '(org-safe-remote-resources '("\\`https://fniessen\\.github\\.io\\(?:/\\|\\'\\)"))
    '(package-selected-packages
-     '(ac-ispell ace-jump-helm-line ace-link acp add-node-modules-path agent-shell
-                 aggressive-indent all-the-icons ansible ansible-doc arduino-mode
-                 auto-compile auto-dictionary auto-highlight-symbol auto-yasnippet
-                 blacken bmx-mode browse-at-remote bundler cargo
-                 centered-cursor-mode chruby clean-aindent-mode code-cells
-                 color-identifiers-mode column-enforce-mode company-anaconda
-                 company-ansible company-lua company-restclient company-terraform
-                 company-web compat copilot copilot-chat counsel counsel-gtags
-                 csv-mode cython-mode dap-mode deft devdocs diminish
-                 dired-quick-sort docker docker-tramp dockerfile-mode dotenv-mode
-                 drag-stuff dumb-jump eat ebuild-mode edit-server editorconfig
-                 elisp-def elisp-slime-nav emmet-mode emr enh-ruby-mode envrc
-                 esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu
-                 evil-args evil-cleverparens evil-collection evil-escape
-                 evil-evilified-state evil-exchange evil-goggles evil-iedit-state
-                 evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
-                 evil-nerd-commenter evil-numbers evil-org evil-surround
-                 evil-textobj-line evil-tutor evil-unimpaired
-                 evil-visual-mark-mode evil-visualstar expand-region eyebrowse
-                 fancy-battery flx-ido flycheck-elsa flycheck-package
-                 flycheck-pos-tip flycheck-rust flymd flyspell-correct-helm fuzzy
-                 gemini-mode ggtags gh-md git-gutter-fringe git-link git-messenger
-                 git-modes git-timemachine gitignore-templates gmail-message-mode
-                 gnuplot golden-ratio google-translate groovy-imports groovy-mode
-                 helm-ag helm-c-yasnippet helm-company helm-css-scss
-                 helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
-                 helm-mode-manager helm-org helm-org-rifle helm-projectile
-                 helm-purpose helm-pydoc helm-swoop helm-themes helm-xref
-                 help-fns+ hide-comnt highlight-indentation highlight-numbers
-                 highlight-parentheses hl-todo holy-mode hoon-mode hungry-delete
-                 hybrid-mode impatient-mode importmagic indent-guide inf-ruby
-                 info+ inheritenv inspector ivy jinja2-mode js-doc js2-refactor
-                 json-mode json-navigator json-reformat launchctl link-hint
-                 live-py-mode livid-mode logcat lorem-ipsum lsp-origami
-                 lsp-pyright lsp-python-ms lsp-ui macrostep markdown-toc
-                 matlab-mode mcp minitest mmm-mode multi-line multi-term
-                 multi-vterm nameless nodejs-repl nose npm-mode ob-http
-                 ob-restclient open-junk-file org org-cliplink org-contrib
-                 org-download org-jira org-journal org-mime org-pomodoro
-                 org-present org-projectile org-rich-yank org-superstar
-                 orgit-forge osx-clipboard osx-dictionary osx-trash overseer
-                 ox-gfm ox-jira paradox password-generator pcre2el
-                 pip-requirements pipenv pippel pkgbuild-mode poetry polymode
-                 popwin powershell prettier-js pug-mode py-isort pydoc pyenv-mode
-                 pylookup pytest qml-mode quickrun rainbow-delimiters
-                 rainbow-identifiers rainbow-mode rake rbenv request restart-emacs
-                 restclient-helm reveal-in-osx-finder robe ron-mode rspec-mode
-                 rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode
-                 ruby-tools rust-mode rvm sass-mode scad-mode scss-mode
-                 seeing-is-believing shell-maker shell-pop slim-mode smeargle
-                 space-doc spaceline spacemacs-purpose-popwin
-                 spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlite3
-                 sqlup-mode stan-mode string-edit-at-point string-inflection
-                 swiper symbol-overlay symon tagedit term-cursor terminal-here
-                 thrift toc-org toml-mode track-changes treemacs-icons-dired
-                 treemacs-magit treemacs-persp treemacs-projectile treeview
-                 typescript-mode undo-tree use-package uuidgen vala-mode
-                 vala-snippets verb vi-tilde-fringe vim-powerline vmd-mode
-                 volatile-highlights vterm web-beautify web-mode which-key winum
-                 wolfram-mode writeroom-mode ws-butler xref yaml-mode yapfify
+     '(ac-ispell ace-jump-helm-line ace-link add-node-modules-path agent-recall aggressive-indent
+                 all-the-icons ansible ansible-doc arduino-mode auto-compile auto-dictionary
+                 auto-highlight-symbol auto-yasnippet blacken bmx-mode browse-at-remote bundler cargo
+                 centered-cursor-mode chruby clean-aindent-mode code-cells color-identifiers-mode
+                 column-enforce-mode company-anaconda company-ansible company-lua company-restclient
+                 company-terraform company-web compat copilot copilot-chat counsel counsel-gtags
+                 csv-mode cython-mode dap-mode deft devdocs diminish dired-quick-sort docker
+                 docker-tramp dockerfile-mode dotenv-mode drag-stuff dumb-jump eat ebuild-mode
+                 edit-server editorconfig elisp-def elisp-slime-nav emmet-mode emr enh-ruby-mode envrc
+                 esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args
+                 evil-cleverparens evil-collection evil-escape evil-evilified-state evil-exchange
+                 evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state evil-matchit
+                 evil-mc evil-nerd-commenter evil-numbers evil-org evil-surround evil-textobj-line
+                 evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar expand-region
+                 eyebrowse fancy-battery flx-ido flycheck-elsa flycheck-package flycheck-pos-tip
+                 flycheck-rust flymd flyspell-correct-helm fuzzy gemini-mode ggtags gh-md
+                 git-gutter-fringe git-link git-messenger git-modes git-timemachine
+                 gitignore-templates gmail-message-mode gnuplot golden-ratio google-translate
+                 groovy-imports groovy-mode helm-ag helm-c-yasnippet helm-company helm-css-scss
+                 helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make helm-mode-manager
+                 helm-org helm-org-rifle helm-projectile helm-purpose helm-pydoc helm-swoop
+                 helm-themes helm-xref help-fns+ hide-comnt highlight-indentation highlight-numbers
+                 highlight-parentheses hl-todo holy-mode hoon-mode hungry-delete hybrid-mode
+                 impatient-mode importmagic indent-guide inf-ruby info+ inheritenv inspector ivy
+                 jinja2-mode js-doc js2-refactor json-mode json-navigator json-reformat launchctl
+                 link-hint live-py-mode livid-mode logcat lorem-ipsum lsp-origami lsp-pyright
+                 lsp-python-ms lsp-ui macrostep markdown-toc matlab-mode mcp minitest mmm-mode
+                 multi-line multi-term multi-vterm nameless nodejs-repl nose npm-mode ob-http
+                 ob-restclient open-junk-file org org-cliplink org-contrib org-download org-jira
+                 org-journal org-mime org-pomodoro org-present org-projectile org-rich-yank
+                 org-superstar orgit-forge osx-clipboard osx-dictionary osx-trash overseer ox-gfm
+                 ox-jira paradox password-generator pcre2el pip-requirements pipenv pippel
+                 pkgbuild-mode poetry polymode popwin powershell prettier-js pug-mode py-isort pydoc
+                 pyenv-mode pylookup pytest qml-mode quickrun rainbow-delimiters rainbow-identifiers
+                 rainbow-mode rake rbenv request restart-emacs restclient-helm reveal-in-osx-finder
+                 robe ron-mode rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor
+                 ruby-test-mode ruby-tools rust-mode rvm sass-mode scad-mode scss-mode
+                 seeing-is-believing shell-pop slim-mode smeargle space-doc spaceline
+                 spacemacs-purpose-popwin spacemacs-whitespace-cleanup sphinx-doc sql-indent sqlite3
+                 sqlup-mode stan-mode string-edit-at-point string-inflection swiper symbol-overlay
+                 symon tagedit term-cursor terminal-here thrift toc-org toml-mode track-changes
+                 treemacs-icons-dired treemacs-magit treemacs-persp treemacs-projectile treeview
+                 typescript-mode undo-tree use-package uuidgen vala-mode vala-snippets verb
+                 vi-tilde-fringe vim-powerline vmd-mode volatile-highlights vterm web-beautify
+                 web-mode which-key winum wolfram-mode writeroom-mode ws-butler xref yaml-mode yapfify
                  yasnippet-snippets)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
