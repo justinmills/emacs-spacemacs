@@ -117,3 +117,20 @@
            (mapcar 'cdr
                    (sort (mapcar (lambda (x) (cons (random) (concat x "\n"))) lines)
                          (lambda (a b) (< (car a) (car b))))))))
+
+;; Given a buffer with a list of text, convert it to a SQL "in" clause of strings. So, basically add
+;; a ' at the beginning and turn each newline into ', ' and slap a ' at the end. This is useful for
+;; taking a list of things and turning it into a SQL query.
+(defun my-buffer-to-sql-in-clause ()
+  "Convert the current buffer to a SQL 'in' clause of strings."
+  (interactive)
+  (let ((beg (point-min))
+        (end (point-max)))
+    (save-excursion
+      (goto-char beg)
+      (insert "'")
+      (goto-char (+ end 1))
+      (insert "'")
+      (goto-char beg)
+      (while (re-search-forward "\n" nil t)
+        (replace-match "', '" nil nil)))))
