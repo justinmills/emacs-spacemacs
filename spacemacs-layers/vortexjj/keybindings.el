@@ -24,3 +24,6 @@
 
 ;; Dash-at-point load documentation in Dash.
 ;;(global-set-key (kbd "C-c d") 'dash-at-point)
+
+;; Bind the function to 'SPC f o'
+(spacemacs/set-leader-keys "fm" 'my/open-current-file-in-finder)

@@ -134,3 +134,13 @@
       (goto-char beg)
       (while (re-search-forward "\n" nil t)
         (replace-match "', '" nil nil)))))
+
+(defun my/open-current-file-in-finder ()
+  "Open the current buffer's file or directory in macOS Finder."
+  (interactive)
+  (let ((path (if (eq major-mode 'dired-mode)
+                  default-directory
+                (buffer-file-name))))
+    (if path
+        (shell-command (concat "open -R " (shell-quote-argument path)))
+      (message "Buffer is not visiting a file."))))
