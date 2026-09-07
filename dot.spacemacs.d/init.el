@@ -139,6 +139,7 @@ This function should only modify configuration layer settings."
 
      ;; My private layer(s)
      vortexjj
+     agent-shell
      ;; org-jira ;; Don't really use this and never really did.
      )
 
@@ -159,8 +160,6 @@ This function should only modify configuration layer settings."
      ;; forge ;; github integration
      ox-slack
      envrc
-     ;; agent-shell - see below where we load it
-     agent-shell
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -779,24 +778,6 @@ before packages are loaded."
    )
   (use-package envrc
     :hook (after-init . envrc-global-mode))
-  ;; Agent-shell for interacting with ai agents
-  (use-package agent-shell
-    :ensure t
-    :ensure-system-package
-    ;; Add agent installation configs here
-    (
-     (claude . "brew install claude-code")
-     ;; this project has been moved here in case it stops working in the future
-     ;; @agentclientprotocol/claude-agent-acp
-     ;; (claude-agent-acp . "npm install -g @zed-industries/claude-agent-acp")
-     (claude-agent-acp . "npm install -g @agentclientprotocol/claude-agent-acp")
-     )
-    )
-  ;; Now customize
-  (setq agent-shell-anthropic-default-model-id "anthropic/claude-sonnet-4.6")
-  ;;(setq agent-shell-opencode-default-model-id "github-copilot/claude-sonnet-4.6")
-  (setq agent-shell-opencode-default-model-id "amazon-bedrock/us.anthropic.claude-sonnet-4-6")
-  ;; (setq agent-shell-opencode-default-model-id "amazon-bedrock/amazon.nova-pro-v1:0")
 
   ;;Enable some python lsp server configs
   (with-eval-after-load 'lsp-pylsp
